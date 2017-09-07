@@ -12,6 +12,7 @@ class Clock extends Component {
             seconds: 0
         };
         this.getTimeUntil = this.getTimeUntil.bind(this);
+        this.leading0 = this.leading0.bind(this);
     }
 
     componentWillMount() {
@@ -24,15 +25,19 @@ class Clock extends Component {
         }, 1000);
     } 
 
+    leading0(num) {
+        return num < 10 ? '0' + num : num;
+    }
+
     getTimeUntil(deadline) {
         const time = moment.duration(
             moment(deadline, "MMMM DD, YYYY").diff(moment())
         );
         this.setState({
-            days: parseInt(time.asDays(), 10),
-            hours: time.hours(),
-            minutes: time.minutes(),
-            seconds: time.seconds()
+            days: this.leading0(parseInt(time.asDays(), 10)),
+            hours: this.leading0(time.hours()),
+            minutes: this.leading0(time.minutes()),
+            seconds: this.leading0(time.seconds())
         });
     }
     
